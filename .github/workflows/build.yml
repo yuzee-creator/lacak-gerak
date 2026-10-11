@@ -19,6 +19,8 @@ jobs:
       - name: Buat proyek Android jika belum ada
         run: if [ ! -d android ]; then npx cap add android; fi
       - run: npx cap sync android
+      - name: Pasang kode native
+        run: python3 scripts/patch_android.py
       - name: Build debug APK
         run: cd android && chmod +x gradlew && ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4

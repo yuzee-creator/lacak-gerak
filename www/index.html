@@ -174,7 +174,7 @@ function ui(){$('#nv').innerHTML=['Layer','Lacak','Efek','Ekspor'].map((n,i)=>`<
   if(l)h+=(l.k=='text'?`<input type=text value="${esc(l.txt)}" oninput="cur().txt=this.value">`:'')+rg('Ukuran',l,'size',10,400)+rg('Putar',l,'rot',-180,180)+rg('Opasitas',l,'op',0,100)+blendUI(l)+
    `<div class=row><input type=color value="${l.col}" oninput="cur().col=this.value"><label><input type=checkbox ${l.att?'checked':''} onchange="cur().att=+this.checked">Tempel ke lacakan</label><button onclick=del()>Hapus</button></div><span style="color:var(--mu);font-size:12px">Seret di video untuk memindahkan layer.</span>`}
  if(tab==1)h=`<div class=row><button onclick="pickI=1;msg('Ketuk titik 1 di video')">Titik 1</button><button onclick="pickI=2;msg('Ketuk titik 2 di video')">Titik 2</button><label><input type=checkbox ${S.dual?'checked':''} onchange="S.dual=+this.checked">Dual (skala+putar)</label></div>
-  <div class=row><button class=pri onclick=run()>Mulai lacak</button><button onclick="TRK=-1">Batal</button><select id=trs><option value=4>Cepat 4x</option><option value=2>Normal 2x</option><option value=1>Teliti 1x</option></select><button onclick=clr()>Hapus</button><button onclick="edI=1;msg('Ketuk posisi yang benar untuk titik 1 di frame ini')">Koreksi T1</button><button onclick="edI=2;msg('Ketuk posisi yang benar untuk titik 2 di frame ini')">Koreksi T2</button></div>
+  <div class=row><button class=pri onclick=run()>Mulai lacak</button><button onclick="cancelT()">Batal</button><select id=trs><option value=4>Cepat 4x</option><option value=2>Normal 2x</option><option value=1>Teliti 1x</option></select><button onclick=clr()>Hapus</button><button onclick="edI=1;msg('Ketuk posisi yang benar untuk titik 1 di frame ini')">Koreksi T1</button><button onclick="edI=2;msg('Ketuk posisi yang benar untuk titik 2 di frame ini')">Koreksi T2</button></div>
   <div class=row><select onchange="S.mode=this.value;rf()">${[['smooth','Halus'],['follow','Ikuti'],['lock','Kunci']].map(m=>`<option value=${m[0]} ${S.mode==m[0]?'selected':''}>${m[1]}</option>`).join('')}</select><label><input type=checkbox ${S.X?'checked':''} onchange="S.X=+this.checked;rf()">Horizontal</label><label><input type=checkbox ${S.Y?'checked':''} onchange="S.Y=+this.checked;rf()">Vertikal</label></div>
   <label>Kekuatan<input type=range min=0 max=100 value=${S.str} oninput="S.str=+this.value;rf()"></label>
   <label><input type=checkbox ${S.lock?'checked':''} onchange="S.lock=+this.checked">Kunci frame (stabilizer di titik)</label>`;
@@ -207,5 +207,21 @@ function expRT(){const fps=+$('#fps').value,bt=+$('#bt').value*1e6;expSz();PV=PF
  rec.onstop=()=>{REC=0;PF=PV;setPQ();OUT={blob:new Blob(ch,{type:mt}),name:'lacak-gerak-'+Date.now()+(mt.includes('mp4')?'.mp4':'.webm')};ui();dl()};
  v.onended=()=>{rec.stop();v.onended=null};v.currentTime=0;
  v.play().then(()=>{try{const as=v.captureStream?v.captureStream():null;as&&as.getAudioTracks().forEach(t=>st.addTrack(t))}catch(e){}rec.start();msg('Merekam…')})}
+
+/* ===== Mode aplikasi (Capacitor): tracking native ===== */
+const NT=(window.Capacitor&&Capacitor.isNativePlatform&&Capacitor.isNativePlatform())?Capacitor.Plugins.NativeTracker:null;
+let NPATH=null;
+function cancelT(){TRK=-1;if(NT)try{NT.cancelTrack()}catch(e){}}
+async function fetchN(){try{const r=await NT.getResult();if(r.running){TRK=1;msg('Melacak '+Math.round((r.progress||0)*100)+'% \u00b7 jalan di latar belakang');return}
+ if(!r.result)return;const res=r.result;await NT.clearResult();TRK=0;
+ if(res.status=='error')return msg('Pelacakan gagal: '+res.error);
+ (res.tracks||[]).forEach((a,i)=>{if(T[i])T[i].r=a.map(q=>({t:q[0],x:q[1],y:q[2]}))});rf();
+ msg(res.status=='cancelled'?'Dibatalkan, hasil sebagian disimpan':'Selesai! Tempel layer ke lacakan di tab Layer.')}catch(e){}}
+async function runN(){const idx=[0];if(S.dual&&T[1].s)idx.push(1);if(!T[0].s)return msg('Pilih titik dulu');if(!NPATH)return msg('Buka video dulu');if(TRK>0)return msg('Masih melacak\u2026');
+ TRK=1;try{await NT.startTrack({path:NPATH,t0:v.currentTime,pts:idx.map(i=>T[i].s)});msg('Melacak di latar belakang (lihat notifikasi). Boleh kunci layar.')}catch(e){TRK=0;msg('Gagal: '+(e.message||e))}}
+async function pickN(){try{msg('Menyalin video\u2026');const r=await NT.pickVideo();NPATH=r.path;v.src=Capacitor.convertFileSrc('file://'+r.path);v.load()}catch(e){msg('Batal membuka video')}}
+if(NT){run=runN;$('#fi').addEventListener('click',e=>{e.preventDefault();pickN()});
+ NT.addListener('progress',e=>{if(TRK>0)msg('Melacak '+Math.round(e.p*100)+'% \u00b7 jalan di latar belakang')});
+ NT.addListener('done',()=>fetchN());document.addEventListener('visibilitychange',()=>{if(!document.hidden)fetchN()});fetchN()}
 ui();
 </script></body></html>
