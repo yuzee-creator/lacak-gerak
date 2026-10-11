@@ -1,12 +1,11 @@
-# Lacak Gerak - tahap 2 (tracking native)
+# Lacak Gerak - tahap 3 (UI timeline + preview ringan)
 
-Update dari zip ini ke repo yang sudah ada (di Termux):
+Update ke repo yang sudah ada (di Termux):
 
-    unzip -o ~/storage/downloads/lacak-gerak-tahap2.zip -d ~/lacak-gerak
+    unzip -o ~/storage/downloads/lacak-gerak-tahap3.zip -d ~/lacak-gerak
     cd ~/lacak-gerak
     git add .
-    git commit -m "tahap 2 tracking native"
+    git commit -m "tahap 3 UI timeline"
     git push
 
-Lalu buka GitHub > Actions, tunggu hijau, unduh artifact lacak-gerak-debug, pasang APK.
-Kalau merah: kirim screenshot error ke Claude.
+Lalu GitHub > Actions > tunggu hijau > unduh artifact > pasang APK.

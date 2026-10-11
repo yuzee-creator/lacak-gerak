@@ -60,7 +60,7 @@ public class Tracker {
             for (int dx = -s.sr; dx <= s.sr; dx++) {
                 int X = cx0 + dx, Y = cy0 + dy;
                 if (X < R || Y < R || X >= w - R || Y >= h - R) continue;
-                float sum = 0;
+                float sum = 0.15f * (dx * dx + dy * dy);
                 int k = 0;
                 for (int y = -R; y <= R; y++) {
                     int o = (Y + y) * w + X;

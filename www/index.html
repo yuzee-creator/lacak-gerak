@@ -1,51 +1,83 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Lacak Gerak</title><script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.3/build/mp4-muxer.js"></script>
 <style>
-:root{--bg:#ececec;--pn:#fff;--tx:#17171a;--mu:#8a8a92;--ac:#f5a900;--bd:transparent;--ink:#17171a;--on:#fff;--soft:#f1f1f2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111113;--pn:#1c1c1f;--tx:#f2f2f4;--mu:#8e8e96;--ac:#f5b72e;--bd:transparent;--ink:#f2f2f4;--on:#111113;--soft:#2a2a2e}}
-:root[data-theme="dark"]{--bg:#111113;--pn:#1c1c1f;--tx:#f2f2f4;--mu:#8e8e96;--ac:#f5b72e;--bd:transparent;--ink:#f2f2f4;--on:#111113;--soft:#2a2a2e}
+:root{--bg:#0c0c0f;--pn:#17171b;--tx:#f2f2f4;--mu:#9a9aa5;--ac:#2bd67b;--soft:#26262c;--ink:#f2f2f4;--on:#0c0c0f;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
 html,body{height:100%;margin:0}
-body{background:radial-gradient(circle at 15% 6%,rgba(245,169,0,.14),transparent 42%),var(--bg);color:var(--tx);font:14px/1.3 ui-rounded,"SF Pro Rounded",system-ui,sans-serif;display:flex;flex-direction:column;overflow:hidden}
-header{display:flex;align-items:center;justify-content:space-between;padding:8px 12px}
-header b{font-size:17px;font-weight:800;letter-spacing:-.2px}
+body{background:var(--bg);color:var(--tx);font:14px/1.3 system-ui,sans-serif;display:flex;flex-direction:column;overflow:hidden;-webkit-user-select:none;user-select:none}
+header{display:flex;align-items:center;justify-content:space-between;padding:6px 12px}
+header b{font-size:16px;font-weight:800;letter-spacing:.3px}.hr{display:flex;gap:8px;align-items:center}
 button,select,.btn{background:var(--soft);color:var(--tx);border:0;border-radius:999px;padding:9px 14px;font:inherit;font-weight:600}
-button.pri,.btn{background:var(--ink);color:var(--on);box-shadow:0 6px 14px rgba(0,0,0,.18)}
-.btn{display:inline-block}
-#st{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0 8px}
-canvas{max-width:100%;max-height:100%;background:#000;border-radius:26px;box-shadow:0 18px 40px rgba(0,0,0,.18);touch-action:none}
-#tr{display:flex;gap:8px;align-items:center;padding:8px 12px}
-#tr input{flex:1;min-width:0}#tr select{padding:6px 2px}#pl{width:38px;height:38px;padding:0;background:var(--ink);color:var(--on)}#sc{accent-color:var(--ac)}input[type=color]{width:38px;height:38px;border:0;border-radius:50%;padding:0;background:none}input[type=checkbox]{accent-color:var(--ink)}
-#tm{font-variant-numeric:tabular-nums;color:var(--mu);font-size:12px;min-width:84px;text-align:right}
-nav{display:flex;gap:6px;padding:8px 12px 0;background:var(--pn);border-radius:28px 28px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.08)}
-nav button{flex:1;background:none;color:var(--mu);padding:10px 0;border-radius:999px}
+button.pri,.btn{background:var(--ac);color:#06210f}.btn{display:inline-block}
+.ib{width:40px;height:40px;padding:0;font-size:18px;display:inline-flex;align-items:center;justify-content:center;background:none}
+#st{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+#vf{position:relative;overflow:hidden;border-radius:16px;background:#000;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#vw{position:absolute;left:0;top:0;width:100%;height:100%;transform-origin:0 0}
+#vw video,#cv{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:fill}
+#cv{touch-action:none}
+#ctl{display:flex;align-items:center;padding:0 8px}.sp{flex:1}
+#pvq{display:none;gap:12px;padding:4px 12px;color:var(--mu);justify-content:center}#pvq.on{display:flex}
+#pvq label{gap:6px}#pvq select{padding:6px 10px}
+#tm0{text-align:center;font-size:12px;color:var(--mu);font-variant-numeric:tabular-nums;padding:2px 0}
+#tl{position:relative;height:178px;margin:0 8px;background:var(--pn);border-radius:16px;overflow:hidden}
+#tls{height:100%;overflow-y:auto;overflow-x:hidden;touch-action:pan-y}
+#tli{position:relative;will-change:transform;padding-bottom:8px}
+#rl{position:relative;height:20px;color:var(--mu);font-size:10px}
+#rl i{position:absolute;top:0;height:20px;font-style:normal;border-left:1px solid #3a3a42;padding-left:3px}
+.ln{position:relative;height:34px;margin:4px 0}
+.vln{height:46px;background:#222;border-radius:8px;overflow:hidden}
+.vln img{position:absolute;top:0;height:100%;object-fit:cover;pointer-events:none}
+.bar{position:absolute;top:0;height:100%;box-sizing:border-box;border-radius:8px;background:#3a3a44;color:#fff;font-size:11px;padding:0 8px;display:flex;align-items:center;gap:8px;overflow:hidden;white-space:nowrap}
+.bar.on{outline:2px solid #fff}
+.trk{background:repeating-linear-gradient(135deg,#1f7a4d 0 8px,#176340 8px 16px);color:#d9ffe9}
+.trk.run{animation:mv 1s linear infinite;background-size:22px 22px}@keyframes mv{to{background-position:22px 0}}
+.trk u{margin-left:auto;text-decoration:none;background:#fff;color:#111;border-radius:6px;padding:3px 10px;font-weight:700}
+.ghost{background:transparent;border:1px dashed #4a4a55;color:var(--mu)}
+#ph{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:#fff;pointer-events:none;border-radius:1px}
+#tb{display:flex;gap:2px;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.tbb{flex:1;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:11px;color:var(--mu);border-radius:12px;font-weight:500}
+.tbb i{font-style:normal;font-size:19px;color:var(--tx)}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 84px);background:rgba(0,0,0,.85);color:#fff;padding:8px 14px;border-radius:999px;font-size:12px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;z-index:30;text-align:center}
+#toast.on{opacity:1}
+#sheet{position:fixed;left:0;right:0;bottom:0;background:var(--pn);border-radius:22px 22px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,.6);transform:translateY(105%);transition:transform .2s;z-index:20;max-height:62vh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+#sheet.on{transform:none}
+.shh{display:flex;align-items:center;padding:8px 8px 0}
+nav{display:flex;gap:6px;flex:1}
+nav button{flex:1;background:none;color:var(--mu);padding:9px 0}
 nav button.on{background:var(--ink);color:var(--on)}
-#pn{background:var(--pn);max-height:34vh;overflow:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+#pn{overflow:auto;padding:10px 12px;display:flex;flex-direction:column;gap:8px;-webkit-user-select:auto;user-select:auto}
 .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.chip.on{background:var(--ac);color:#17171a}
+.chip.on{background:var(--ac);color:#06210f}
 label{display:flex;align-items:center;gap:8px;color:var(--mu)}
-label input[type=range]{flex:1;accent-color:var(--ink)}
+label input[type=range]{flex:1;accent-color:var(--ac)}
 input[type=text]{background:var(--soft);color:var(--tx);border:0;border-radius:999px;padding:10px 14px}
-#ms{color:var(--mu);font-size:12px;min-height:14px}
+input[type=color]{width:38px;height:38px;border:0;border-radius:50%;padding:0;background:none}
+input[type=checkbox]{accent-color:var(--ac)}
 </style></head><body>
-<header><b>LACAK GERAK</b><label class=btn>Buka video<input type=file accept="video/*" id=fi hidden></label></header>
-<div id=st><canvas id=cv width=720 height=1280></canvas></div>
-<div id=tr><button id=pl>▶</button><input type=range id=sc min=0 max=1 step=.01 value=0><span id=tm>0:00 / 0:00</span><select id=pq onchange=setPQ()><option value=240>240p</option><option value=360 selected>360p</option><option value=480>480p</option><option value=720>720p</option><option value=0>Penuh</option></select><select id=pf onchange="PF=+this.value"><option>15</option><option>24</option><option selected>30</option></select></div>
-<nav id=nv></nav>
-<div id=pn></div>
+<header><b>LACAK GERAK</b><span class=hr><label class=btn>Buka video<input type=file accept="video/*" id=fi hidden></label><button class=ib onclick="openSheet(3)">&#10549;</button></span></header>
+<div id=st><div id=vf><div id=vw><canvas id=cv width=720 height=1280></canvas></div></div></div>
+<div id=ctl><button class=ib onclick="$('#pvq').classList.toggle('on')">&#9673;</button><span class=sp></span><button class=ib onclick="seekT(0)">&#9198;</button><button class=ib id=pl>&#9654;</button><button class=ib onclick="seekT(v.duration)">&#9197;</button><span class=sp></span><button class=ib onclick=undo()>&#8630;</button><button class=ib onclick=redo()>&#8631;</button></div>
+<div id=pvq><label>Preview<select id=pq onchange=setPQ()><option value=240>240p</option><option value=360 selected>360p</option><option value=480>480p</option><option value=720>720p</option><option value=0>Penuh</option></select></label><label>FPS<select id=pf onchange="PF=+this.value"><option>15</option><option>24</option><option selected>30</option></select></label></div>
+<input type=range id=sc hidden min=0 max=1 step=.01 value=0>
+<div id=tm0><span id=tm>00:00.00 | 00:00.00</span></div>
+<div id=tl><div id=tls><div id=tli></div></div><div id=ph></div></div>
+<div id=tb></div>
+<div id=toast></div>
+<div id=sheet><div class=shh><nav id=nv></nav><button class=ib onclick="sheet=0;ui()">&#10005;</button></div><div id=pn></div></div>
+<input type=file accept="image/*" id=imf hidden>
 <script>
 const $=s=>document.querySelector(s),v=document.createElement('video');
 v.playsInline=true;v.preload='auto';
-const cv=$('#cv'),cx=cv.getContext('2d');
-let W=720,H=1280,L=[],sel=null,T=[{},{}],pickI=0,tab=0,REC=0,drag=0,id=1,scr=0,edI=0,K=1,PQ=360,PF=30,PV=30,BUSY=0,OUT=null,dirty=1,lastD=0,lastU=0;
+const cv=$('#cv'),cx=cv.getContext('2d');$('#vw').insertBefore(v,cv);v.style.cssText='position:absolute;left:0;top:0;width:100%;height:100%;object-fit:fill';
+let W=720,H=1280,L=[],sel=null,T=[{},{}],pickI=0,tab=0,REC=0,drag=0,id=1,scr=0,edI=0,K=1,PQ=360,PF=30,PV=30,BUSY=0,OUT=null,dirty=1,lastD=0,lastU=0,sheet=0,sMode='video',pend=null,tlD=null,tlU={m:0,t:0},tlSig='',DW=300,DH=500,svK='',TT0=0,imgMode='add';
 const S={mode:'smooth',str:35,X:1,Y:1,dual:0,lock:0},A={b:100,c:100,s:100,h:0,bl:0,sp:100,ck:0,kc:'#00ff00',kt:30,kbg:'#000000'};
 const SH=['circle','square','triangle','star','heart','arrow','ring'];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const msg=t=>$('#ms')&&($('#ms').textContent=t);
+const msg=t=>{const e=$('#toast');if(!e)return;e.textContent=t;e.classList.add('on');clearTimeout(msg.h);msg.h=setTimeout(()=>e.classList.remove('on'),4500)};
 const cur=()=>L.find(x=>x.id===sel);
 const has=i=>T[i]&&T[i].f&&T[i].f.length>0;
-const fmt=s=>{s=s||0;return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')};
+const fmt=s=>{s=s||0;const m=Math.floor(s/60),x=s%60;return String(m).padStart(2,'0')+':'+String(Math.floor(x)).padStart(2,'0')+'.'+String(Math.floor((x%1)*100)).padStart(2,'0')};
 
 $('#fi').onchange=e=>{const f=e.target.files[0];if(!f)return;v.src=URL.createObjectURL(f);v.load()};
-v.onloadedmetadata=()=>{W=v.videoWidth;H=v.videoHeight;setPQ();$('#sc').max=v.duration;T=[{},{}];msg('Video siap. Geser ke frame awal, lalu pilih titik di tab Lacak.')};
+v.onloadedmetadata=()=>{W=v.videoWidth;H=v.videoHeight;setPQ();fit();$('#sc').max=v.duration;setTimeout(genThumbs,800);T=[{},{}];msg('Video siap. Geser ke frame awal, lalu pilih titik di tab Lacak.')};
 $('#pl').onclick=()=>{if(!v.duration)return;v.paused?v.play():v.pause()};
 $('#sc').oninput=e=>{scr=1;v.currentTime=+e.target.value};
 $('#sc').onchange=()=>scr=0;
@@ -68,8 +100,8 @@ function upk(l,k,x,t){const a=l.kf[k]=l.kf[k]||[],e=a.find(o=>Math.abs(o.t-t)<.0
 const hasK=l=>l.kf&&Object.keys(l.kf).length>0;
 function sp(k,x){const l=cur();if(!l)return;l[k]=x;if(hasK(l))upk(l,k,x,v.currentTime)}
 function setxy(l,x,y){l.x=x;l.y=y;if(hasK(l)){upk(l,'x',x,v.currentTime);upk(l,'y',y,v.currentTime)}}
-function addK(){const l=cur();if(!l)return;l.kf=l.kf||{};const t=v.currentTime;['x','y','size','rot','op'].forEach(k=>upk(l,k,val(l,k,t),t));msg('Keyframe ditambah di '+fmt(t))}
-function clrK(){const l=cur();if(l){l.kf={};msg('Keyframe dihapus')}}
+function addK(){const l=cur();if(!l)return;snap();l.kf=l.kf||{};const t=v.currentTime;['x','y','size','rot','op'].forEach(k=>upk(l,k,val(l,k,t),t));msg('Keyframe ditambah di '+fmt(t))}
+function clrK(){const l=cur();if(l){snap();l.kf={};msg('Keyframe dihapus')}}
 function fix(i,n){const r=T[i]&&T[i].r;if(!r||!r.length)return msg('Belum ada lacakan');const t=v.currentTime;let k=0;while(k<r.length-1&&r[k+1].t<=t)k++;const dx=n.x-r[k].x,dy=n.y-r[k].y;for(let j=k;j<r.length;j++){r[j].x+=dx;r[j].y+=dy}rf();msg('Titik dikoreksi dari frame ini ke depan')}
 const FX=(()=>{try{const c=document.createElement('canvas');c.width=c.height=1;const x=c.getContext('2d');x.filter='invert(1)';x.fillStyle='#000';x.fillRect(0,0,1,1);return x.getImageData(0,0,1,1).data[0]>200}catch(e){return false}})();
 const bo=document.createElement('canvas');
@@ -99,36 +131,98 @@ function shp(k,z){const p=(x,y,i)=>i?cx.lineTo(x,y):cx.moveTo(x,y);
 function drawL(l,t){const p=pose(l,t);cx.save();cx.translate(p.x*W,p.y*H);cx.rotate(p.r+val(l,'rot',t)*Math.PI/180);cx.scale(p.s,p.s);
  cx.globalAlpha=val(l,'op',t)/100;cx.globalCompositeOperation=l.bm||'source-over';cx.fillStyle=l.col;const z=val(l,'size',t)*W/720;
  if(l.k==='text'){cx.font=`800 ${z}px system-ui,sans-serif`;cx.textAlign='center';cx.textBaseline='middle';cx.lineWidth=z/9;cx.lineJoin='round';cx.strokeStyle='#000';cx.strokeText(l.txt,0,0);cx.fillText(l.txt,0,0)}
- else{cx.beginPath();shp(l.k,z);cx.fill()}
+ else if(l.k=='img'){const im=IMG[l.im];if(im&&im.complete&&im.naturalWidth){const a=im.naturalHeight/im.naturalWidth;cx.drawImage(im,-z/2,-z*a/2,z,z*a)}}else{cx.beginPath();shp(l.k,z);cx.fill()}
  cx.restore()}
 function setPQ(){PQ=+$('#pq').value;const ms=Math.min(W,H);K=PQ?Math.min(1,PQ/ms):1;cv.width=Math.max(2,Math.round(W*K));cv.height=Math.max(2,Math.round(H*K));dirty=1}
 function expSz(){const sh=+$('#rs').value,ms=Math.min(W,H),k=sh?Math.min(1,sh/ms):1;cv.width=Math.max(2,Math.round(W*k/2)*2);cv.height=Math.max(2,Math.round(H*k/2)*2);K=cv.width/W}
-function draw(){const t=v.currentTime;cx.save();cx.setTransform(K,0,0,K,0,0);cx.clearRect(0,0,W,H);const c=S.lock?center(t):null;
- if(c){cx.translate(W/2,H/2);cx.scale(1.15,1.15);cx.translate(-W/2,-H/2);cx.translate(c.bx*W,c.by*H);cx.rotate(-c.r);cx.scale(1/c.s,1/c.s);cx.translate(-c.x*W,-c.y*H)}
- cx.filter=(A.b==100&&A.c==100&&A.s==100&&A.h==0&&!A.bl)?'none':`brightness(${A.b}%) contrast(${A.c}%) saturate(${A.s}%) hue-rotate(${A.h}deg) blur(${A.bl*W/720}px)`;
- v.playbackRate=A.sp/100;if(v.readyState>=2){if(A.ck){cx.fillStyle=A.kbg;cx.fillRect(0,0,W,H);cx.drawImage(keyed(),0,0,W,H)}else cx.drawImage(src(),0,0,W,H)}cx.filter='none';pfx();
- L.forEach(l=>drawL(l,t));
- if(!REC)[0,1].forEach(i=>{const q=has(i)?at(i,t):T[i].s;if(!q)return;if(i==1&&!S.dual)return;const x=q.x*W,y=q.y*H,r=W/45;
-  cx.lineWidth=W/240;cx.strokeStyle=i?'#4dabf7':'#ffa94d';cx.beginPath();cx.arc(x,y,r,0,7);cx.moveTo(x-r*1.6,y);cx.lineTo(x+r*1.6,y);cx.moveTo(x,y-r*1.6);cx.lineTo(x,y+r*1.6);cx.stroke()});
- cx.restore()}
+function draw(){const t=pend!=null?pend:v.currentTime,fast=!A.ck&&!REC,c=S.lock?center(t):null;v.playbackRate=A.sp/100;
+ cx.save();cx.setTransform(K,0,0,K,0,0);cx.clearRect(0,0,W,H);
+ if(fast)setView(1,c);
+ else{setView(0,null);
+  if(c){cx.translate(W/2,H/2);cx.scale(1.15,1.15);cx.translate(-W/2,-H/2);cx.translate(c.bx*W,c.by*H);cx.rotate(-c.r);cx.scale(1/c.s,1/c.s);cx.translate(-c.x*W,-c.y*H)}
+  cx.filter=(A.b==100&&A.c==100&&A.s==100&&A.h==0&&!A.bl)?'none':`brightness(${A.b}%) contrast(${A.c}%) saturate(${A.s}%) hue-rotate(${A.h}deg) blur(${A.bl*W/720}px)`;
+  if(v.readyState>=2){if(A.ck){cx.fillStyle=A.kbg;cx.fillRect(0,0,W,H);cx.drawImage(keyed(),0,0,W,H)}else cx.drawImage(src(),0,0,W,H)}
+  cx.filter='none';pfx()}
+ L.forEach(l=>{if(vis(l,t))drawL(l,t)});
+ if(!REC){drawSel(t);markers(t)}
+ cx.restore();tlPos(t)}
+/* ===== UI v2: timeline, toolbar, undo ===== */
+const PPS=70,IMG={};let THB=[],THN=1,thTok=0,UND=[],RED=[];
+const fmtS=x=>Math.floor(x/60)+':'+String(Math.floor(x%60)).padStart(2,'0');
+function seekT(t){if(!v.duration)return;t=Math.max(0,Math.min(v.duration-.01,t));if(v.seeking)pend=t;else v.currentTime=t;dirty=1}
+v.addEventListener('seeked',()=>{if(pend!=null){const p=pend;pend=null;v.currentTime=p}});
+function snap(){UND.push(JSON.stringify({L,sel}));if(UND.length>40)UND.shift();RED=[]}
+function rest(x){const o=JSON.parse(x);L=o.L;sel=o.sel;ui()}
+function undo(){if(!UND.length)return msg('Tidak ada yang bisa dibatalkan');RED.push(JSON.stringify({L,sel}));rest(UND.pop())}
+function redo(){if(!RED.length)return;UND.push(JSON.stringify({L,sel}));rest(RED.pop())}
+const vis=(l,t)=>t>=(l.ti||0)-.001&&(l.to==null||t<=l.to+.001);
+function openSheet(n){tab=n;sheet=1;ui()}
+function barTap(i){if(tlU.m&&performance.now()-tlU.t<350)return;sel=i;sMode='layer';ui()}
+function laneTap(m){if(tlU.m&&performance.now()-tlU.t<350)return;sMode=m;ui()}
+function split(){const l=cur();if(!l)return;const t=v.currentTime,d=v.duration||0,a=l.ti||0,b=l.to==null?d:l.to;if(t<=a+.1||t>=b-.1)return msg('Geser garis putih ke tengah layer dulu');snap();const n=JSON.parse(JSON.stringify(l));n.id=id++;n.ti=t;n.to=l.to;l.to=t;L.push(n);sel=n.id;sMode='layer';ui()}
+function dup(){const l=cur();if(!l)return;snap();const n=JSON.parse(JSON.stringify(l));n.id=id++;n.x=Math.min(.9,l.x+.05);n.y=Math.min(.9,l.y+.05);delete n.kf;L.push(n);sel=n.id;ui()}
+function rep(){const l=cur();if(!l)return;if(l.k=='text'){const x=prompt('Teks baru',l.txt);if(x!=null){snap();l.txt=x}}else if(l.k=='img'){imgMode='rep';$('#imf').click()}else{snap();l.k=SH[(SH.indexOf(l.k)+1)%SH.length]}ui()}
+function fit(){const r=$('#st').getBoundingClientRect(),k=Math.min((r.width-12)/W,(r.height-8)/H);DW=Math.max(40,W*k);DH=Math.max(40,H*k);const f=$('#vf');f.style.width=DW+'px';f.style.height=DH+'px';svK='';dirty=1}
+function setView(fast,c){let vs=fast?'visible':'hidden',fl='none',tf='none';
+ if(fast){if(!(A.b==100&&A.c==100&&A.s==100&&A.h==0&&!A.bl))fl=`brightness(${A.b}%) contrast(${A.c}%) saturate(${A.s}%) hue-rotate(${A.h}deg) blur(${A.bl*DW/720}px)`;
+  if(c)tf=`translate(${DW/2}px,${DH/2}px) scale(1.15) translate(${-DW/2}px,${-DH/2}px) translate(${c.bx*DW}px,${c.by*DH}px) rotate(${-c.r}rad) scale(${1/c.s}) translate(${-c.x*DW}px,${-c.y*DH}px)`}
+ const k=vs+'|'+fl+'|'+tf;if(k===svK)return;svK=k;v.style.visibility=vs;v.style.filter=fl;$('#vw').style.transform=tf}
+function markers(t){[0,1].forEach(i=>{if(i==1&&!S.dual)return;const q=has(i)?at(i,t):(T[i]&&T[i].s);if(!q)return;const x=q.x*W,y=q.y*H,r=W*.085,col=i?'#4dabf7':'#ffffff';
+  cx.save();cx.lineWidth=W*.006;cx.strokeStyle=col;cx.setLineDash([W*.025,W*.018]);cx.beginPath();cx.arc(x,y,r,0,7);cx.stroke();cx.setLineDash([]);
+  const bb=W*.035,k=W*.02;cx.strokeStyle='#22e06b';cx.lineWidth=W*.007;[[-1,-1],[1,-1],[1,1],[-1,1]].forEach(a=>{cx.beginPath();cx.moveTo(x+a[0]*bb,y+a[1]*(bb-k));cx.lineTo(x+a[0]*bb,y+a[1]*bb);cx.lineTo(x+a[0]*(bb-k),y+a[1]*bb);cx.stroke()});
+  cx.fillStyle=col;cx.beginPath();cx.arc(x,y,W*.011,0,7);cx.fill();cx.restore()});
+ if(S.dual){const a=has(0)?at(0,t):T[0]&&T[0].s,b=has(1)?at(1,t):T[1]&&T[1].s;if(a&&b){cx.save();cx.setLineDash([W*.02,W*.015]);cx.strokeStyle='#fff';cx.lineWidth=W*.004;cx.beginPath();cx.moveTo(a.x*W,a.y*H);cx.lineTo(b.x*W,b.y*H);cx.stroke();cx.restore()}}}
+function drawSel(t){const l=cur();if(!l||sMode!='layer'||!vis(l,t))return;const p=pose(l,t),z=val(l,'size',t)*W/720;let w=z,h=z;
+ if(l.k=='text'){cx.save();cx.font=`800 ${z}px system-ui,sans-serif`;w=cx.measureText(l.txt).width+z*.2;h=z*1.2;cx.restore()}
+ else if(l.k=='img'){const im=IMG[l.im];if(im&&im.naturalWidth)h=z*im.naturalHeight/im.naturalWidth}
+ cx.save();cx.translate(p.x*W,p.y*H);cx.rotate(p.r+val(l,'rot',t)*Math.PI/180);cx.scale(p.s,p.s);cx.strokeStyle='#fff';cx.lineWidth=W/300;cx.strokeRect(-w/2-6,-h/2-6,w+12,h+12);cx.restore()}
+function tlPos(t){const w=$('#tl').clientWidth;$('#tli').style.transform=`translateX(${w/2-t*PPS}px)`;$('#tm').textContent=fmt(t)+' | '+fmt(v.duration||0)}
+function tlBuild(){const d=v.duration||0,tli=$('#tli');if(!d||!isFinite(d)){tli.innerHTML='';return}const w=d*PPS;tli.style.width=w+'px';
+ let h='<div id=rl>';for(let q=0;q<=Math.floor(d);q++)h+=`<i style="left:${q*PPS}px">${q%2?'':fmtS(q)}</i>`;h+='</div>';
+ h+=`<div class="ln vln" style="width:${w}px" onclick="laneTap('video')">${THB.map((u,i)=>`<img src="${u}" style="left:${i*THN*PPS}px;width:${THN*PPS}px">`).join('')}</div>`;
+ L.forEach(l=>{const a=l.ti||0,b=l.to==null?d:l.to;h+=`<div class=ln style="width:${w}px"><b class="bar${l.id===sel&&sMode=='layer'?' on':''}" style="left:${a*PPS}px;width:${Math.max(30,(b-a)*PPS)}px" onclick="barTap(${l.id})">${l.k=='text'?esc(l.txt):l.k=='img'?'\u25a3 gambar':l.k}</b></div>`});
+ let t='';
+ if(TRK>0)t=`<b class="bar trk run" style="left:${TT0*PPS}px;width:${Math.max(110,(d-TT0)*PPS)}px">Melacak\u2026<u onclick="cancelT()">Stop</u></b>`;
+ else if(has(0)){const a=T[0].f[0].t,b=T[0].f[T[0].f.length-1].t;t=`<b class="bar trk${sMode=='track'?' on':''}" style="left:${a*PPS}px;width:${Math.max(60,(b-a)*PPS)}px" onclick="laneTap('track')">Tracking</b>`}
+ else t=`<b class="bar ghost" style="left:0;width:${Math.max(200,w)}px" onclick="laneTap('track')">+ Tracking (ketuk untuk mulai)</b>`;
+ h+=`<div class=ln style="width:${w}px">${t}</div>`;tli.innerHTML=h}
+function tlChk(){const sg=[TRK,has(0)?T[0].f.length:0,sel,sMode,v.duration,THB.length,L.map(l=>l.id+':'+(l.ti||0)+':'+l.to+':'+(l.txt||l.k)).join()].join('|');if(sg!==tlSig){tlSig=sg;tlBuild()}}
+async function genThumbs(){const tok=++thTok;THB=[];const d=v.duration;if(!d||!isFinite(d))return;const n=Math.min(40,Math.max(1,Math.ceil(d)));THN=d/n;
+ const v3=document.createElement('video');v3.muted=true;v3.preload='auto';v3.src=v.src;
+ try{await new Promise((ok,no)=>{v3.onloadeddata=ok;v3.onerror=no});const c=document.createElement('canvas'),th=64,tw=Math.max(8,Math.round(th*W/H));c.width=tw;c.height=th;const x=c.getContext('2d');
+  for(let i=0;i<n;i++){if(tok!=thTok)break;await seek2(v3,Math.min(d-.05,(i+.5)*THN));x.drawImage(v3,0,0,tw,th);THB.push(c.toDataURL('image/jpeg',.5))}}catch(e){}
+ v3.removeAttribute('src');v3.load()}
+function tbRender(){const B=(ic,lb,fn)=>`<button class=tbb onclick="${fn}"><i>${ic}</i>${lb}</button>`;let h='';
+ if(sMode=='layer'&&cur())h=B('\u2702','Split','split()')+B('\u{1F5D1}','Hapus','del()')+B('\u29C9','Duplikat','dup()')+B('\u27F3','Ganti','rep()')+B('\u270E','Edit','openSheet(0)')+B('\u25C6','Key','addK()');
+ else if(sMode=='track')h=B('\u25CF','Titik 1',"pickI=1;msg('Ketuk titik yang mau dilacak di video')")+B('\u25CC','Titik 2',"S.dual=1;pickI=2;msg('Ketuk titik ke-2 di video')")+B('\u25B6','Lacak','run()')+B('\u2316','Koreksi',"edI=1;msg('Ketuk posisi yang benar di frame ini')")+B('\u224B','Tune','openSheet(1)')+B('\u232B','Hapus','clr()');
+ else h=B('T','Teks','addT()')+B('\u25FC','Bentuk','addS()')+B('\u25A3','Gambar',"imgMode='add';$('#imf').click()")+B('\u2726','Efek','openSheet(2)')+B('\u2B06','Ekspor','openSheet(3)');
+ $('#tb').innerHTML=h}
+const tlEl=$('#tl');
+tlEl.addEventListener('pointerdown',e=>{tlD={x:e.clientX,t:v.currentTime,m:0}});
+tlEl.addEventListener('pointermove',e=>{if(!tlD)return;const dx=e.clientX-tlD.x;if(!tlD.m&&Math.abs(dx)>6){tlD.m=1;v.pause()}if(tlD.m){const t=Math.max(0,Math.min(v.duration||0,tlD.t-dx/PPS));seekT(t);tlPos(t)}});
+const tlEnd=()=>{if(tlD){tlU={m:tlD.m,t:performance.now()};tlD=null}};
+tlEl.addEventListener('pointerup',tlEnd);tlEl.addEventListener('pointercancel',tlEnd);
+$('#imf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const key='i'+id++;IMG[key]=im;snap();const c=cur();if(imgMode=='rep'&&c&&c.k=='img'){c.im=key}else{const l={id:id++,k:'img',im:key,size:260,rot:0,op:100,col:'#fff',x:.5,y:.5,att:has(0)?1:0};L.push(l);sel=l.id;sMode='layer'}ui();dirty=1};im.src=r.result};r.readAsDataURL(f)};
+$('#pn').addEventListener('pointerdown',e=>{if(e.target.type=='range'||e.target.type=='color')snap()},true);
+if(window.ResizeObserver)new ResizeObserver(fit).observe($('#st'));
 ['input','change','pointerdown','pointermove','pointerup','seeked','loadeddata'].forEach(e=>{document.addEventListener(e,()=>dirty=1,true);v.addEventListener(e,()=>dirty=1)});
 (function loop(ts){requestAnimationFrame(loop);if(BUSY)return;if((!v.paused||dirty||REC)&&ts-lastD>=1000/PF-3){draw();lastD=ts;dirty=0}
- if(ts-lastU>200){lastU=ts;if(!scr)$('#sc').value=v.currentTime||0;$('#tm').textContent=fmt(v.currentTime)+' / '+fmt(v.duration);$('#pl').textContent=v.paused?'▶':'❚❚'}})(0);
+ if(ts-lastU>200){lastU=ts;tlChk();if(!scr)$('#sc').value=v.currentTime||0;$('#tm').textContent=fmt(v.currentTime)+' / '+fmt(v.duration);$('#pl').textContent=v.paused?'▶':'❚❚'}})(0);
 
-const px=e=>{const b=cv.getBoundingClientRect();return{x:Math.min(1,Math.max(0,(e.clientX-b.left)/b.width)),y:Math.min(1,Math.max(0,(e.clientY-b.top)/b.height))}};
+const px=e=>{const b=$('#vf').getBoundingClientRect();return{x:Math.min(1,Math.max(0,(e.clientX-b.left)/b.width)),y:Math.min(1,Math.max(0,(e.clientY-b.top)/b.height))}};
 function moveL(e){const l=cur();if(!l)return;const n=px(e),c=l.att?center(v.currentTime):null;
  if(!c){setxy(l,n.x,n.y);return}
  const dx=(n.x-c.x)*W,dy=(n.y-c.y)*H,co=Math.cos(-c.r),si=Math.sin(-c.r);
  setxy(l,c.bx+(dx*co-dy*si)/c.s/W,c.by+(dx*si+dy*co)/c.s/H)}
 cv.onpointerdown=e=>{if(edI){fix(edI-1,px(e));edI=0;return}if(pickI){const n=px(e);T[pickI-1]={s:n,r:[],f:[]};msg('Titik '+pickI+' dipilih. Tekan Mulai lacak.');pickI=0;return}
- if(sel){drag=1;cv.setPointerCapture(e.pointerId);moveL(e)}};
+ if(sel&&sMode=='layer'){snap();drag=1;cv.setPointerCapture(e.pointerId);moveL(e)}};
 cv.onpointermove=e=>{if(drag)moveL(e)};
 cv.onpointerup=()=>drag=0;
 
 const seek=t=>new Promise(r=>{if(Math.abs(v.currentTime-t)<.001)return r();const f=()=>{v.removeEventListener('seeked',f);r()};v.addEventListener('seeked',f);v.currentTime=Math.min(t,v.duration-.001)});
 const patch=(g,w,x,y)=>{const R=8,o=new Float32Array(289);let k=0;for(let j=-R;j<=R;j++)for(let i=-R;i<=R;i++)o[k++]=g[Math.round(y+j)*w+Math.round(x+i)]||0;return o};
 function match(g,w,h,s){const R=8,SR=s.sr||22,cx0=Math.round(s.x),cy0=Math.round(s.y);let bx=cx0,by=cy0,bs=1e18;
- for(let dy=-SR;dy<=SR;dy++)for(let dx=-SR;dx<=SR;dx++){const X=cx0+dx,Y=cy0+dy;if(X<R||Y<R||X>=w-R||Y>=h-R)continue;let sum=0,k=0;
+ for(let dy=-SR;dy<=SR;dy++)for(let dx=-SR;dx<=SR;dx++){const X=cx0+dx,Y=cy0+dy;if(X<R||Y<R||X>=w-R||Y>=h-R)continue;let sum=.15*(dx*dx+dy*dy),k=0;
   for(let y=-R;y<=R&&sum<bs;y++){const o=(Y+y)*w+X;for(let x=-R;x<=R;x++,k++)sum+=Math.abs(g[o+x]-s.tpl[k])}
   if(sum<bs){bs=sum;bx=X;by=Y}}
  return{x:bx,y:by}}
@@ -136,7 +230,7 @@ let TRK=0,TRV=null;
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&TRK>0&&TRV&&TRV.paused)TRV.play().catch(()=>{})});
 const seek2=(vv,t)=>new Promise(r=>{if(Math.abs(vv.currentTime-t)<.001)return r();const f=()=>{vv.removeEventListener('seeked',f);r()};vv.addEventListener('seeked',f);vv.currentTime=Math.min(t,vv.duration-.001)});
 async function run(){const idx=[0];if(S.dual&&T[1].s)idx.push(1);if(!T[0].s)return msg('Pilih titik dulu');if(!v.duration)return msg('Buka video dulu');if(TRK>0)return msg('Masih melacak…');
- TRK=1;let wl=null;const v2=TRV=document.createElement('video');v2.muted=true;v2.playsInline=true;v2.preload='auto';v2.src=v.src;
+ TRK=1;TT0=v.currentTime;let wl=null;const v2=TRV=document.createElement('video');v2.muted=true;v2.playsInline=true;v2.preload='auto';v2.src=v.src;
  try{await new Promise((ok,no)=>{v2.onloadeddata=ok;v2.onerror=no;v2.load()});
   const tw=320,th=Math.max(16,Math.round(tw*H/W)),oc=document.createElement('canvas');oc.width=tw;oc.height=th;const c2=oc.getContext('2d',{willReadFrequently:true}),g=new Float32Array(tw*th);
   const t0=v.currentTime,dur=v.duration,rate=+($('#trs')||{value:4}).value,st=idx.map(i=>({x:T[i].s.x*tw,y:T[i].s.y*th,tpl:null,sr:22})),r=idx.map(()=>[]);let last=t0;
@@ -161,10 +255,10 @@ async function runOld(){const idx=[0];if(S.dual&&T[1].s)idx.push(1);if(!T[0].s)r
  idx.forEach((ti,k)=>T[ti].r=r[k]);rf();await seek(t0);BUSY=0;dirty=1;msg('Selesai. Tempel layer ke lacakan di tab Layer.')}
 function clr(){T=[{},{}];msg('Lacakan dihapus')}
 
-function addT(){const l={id:id++,k:'text',txt:'Teks',size:90,rot:0,op:100,col:'#ffffff',x:.5,y:.5,att:has(0)?1:0};L.push(l);sel=l.id;ui()}
-function addS(){const l={id:id++,k:$('#sh').value,size:120,rot:0,op:100,col:'#ff6b6b',x:.5,y:.5,att:has(0)?1:0};L.push(l);sel=l.id;ui()}
+function addT(){snap();const l={id:id++,k:'text',txt:'Teks',size:90,rot:0,op:100,col:'#ffffff',x:.5,y:.5,att:has(0)?1:0};L.push(l);sel=l.id;ui()}
+function addS(){snap();const l={id:id++,k:(($('#sh')||{}).value||'circle'),size:120,rot:0,op:100,col:'#ff6b6b',x:.5,y:.5,att:has(0)?1:0};L.push(l);sel=l.id;ui()}
 function pk(i){sel=i;ui()}
-function del(){L=L.filter(x=>x.id!==sel);sel=null;ui()}
+function del(){snap();L=L.filter(x=>x.id!==sel);sel=null;ui()}
 const rg=(n,o,k,a,b)=>`<label>${n}<input type=range min=${a} max=${b} value=${o[k]} oninput="${o===A?`A['${k}']=+this.value`:`sp('${k}',+this.value)`}"></label>`;
 const PR={Normal:[100,100,100,0],Sinematik:[95,120,90,-8],Vivid:[105,115,160,0],Noir:[95,135,0,0],Hangat:[105,105,115,-12],Dingin:[100,105,95,14]};
 function ui(){$('#nv').innerHTML=['Layer','Lacak','Efek','Ekspor'].map((n,i)=>`<button class="${i==tab?'on':''}" onclick="tab=${i};ui()">${n}</button>`).join('');
@@ -181,7 +275,7 @@ function ui(){$('#nv').innerHTML=['Layer','Lacak','Efek','Ekspor'].map((n,i)=>`<
  if(tab==2)h=rg('Blur',A,'bl',0,40)+rg('Kecepatan %',A,'sp',25,300)+rg('Kecerahan',A,'b',50,150)+rg('Kontras',A,'c',50,170)+rg('Saturasi',A,'s',0,200)+rg('Hue',A,'h',-180,180)+
   `<div class=row>${Object.keys(PR).map(k=>`<button onclick="[A.b,A.c,A.s,A.h]=PR['${k}'];ui()">${k}</button>`).join('')}</div>`+chromaUI();
  if(tab==3)h=`<div class=row><label>FPS<select id=fps><option>24</option><option selected>30</option><option>60</option></select></label><label>Mbps<select id=bt><option>4</option><option selected>8</option><option>16</option></select></label><label>Resolusi<select id=rs><option value=480>480p</option><option value=720 selected>720p</option><option value=1080>1080p</option><option value=0>Asli</option></select></label></div><button class=pri onclick=exp()>Ekspor ke video</button>${OUT?`<div class=row><button class=pri onclick=toGal()>Simpan ke Galeri</button><button onclick=dl()>Unduh lagi</button></div>`:''}<span style="color:var(--mu);font-size:12px">Ekspor dihitung frame demi frame, jadi hasil mulus walau HP kentang (butuh waktu). Jangan tutup tab atau kunci layar.</span>`;
- $('#pn').innerHTML=h+'<div id=ms></div>'}
+ $('#pn').innerHTML=h;$('#sheet').classList.toggle('on',!!sheet);tbRender()}
 async function aud(sp,dur){let r=null;try{const ac=new (window.AudioContext||window.webkitAudioContext)(),ab=await ac.decodeAudioData(await (await fetch(v.src)).arrayBuffer());ac.close();const ch=Math.min(2,ab.numberOfChannels),oc=new OfflineAudioContext(ch,Math.ceil(dur/sp*ab.sampleRate),ab.sampleRate),s=oc.createBufferSource();s.buffer=ab;s.playbackRate.value=sp;s.connect(oc.destination);s.start();r=await oc.startRendering()}catch(e){return null}
  if(!(window.AudioEncoder&&(await AudioEncoder.isConfigSupported({codec:'mp4a.40.2',sampleRate:r.sampleRate,numberOfChannels:r.numberOfChannels,bitrate:128000})).supported))throw 'aac';return r}
 async function encAud(mx,r){const ch=r.numberOfChannels,sr=r.sampleRate,len=r.length,enc=new AudioEncoder({output:(c,m)=>mx.addAudioChunk(c,m),error:console.error});enc.configure({codec:'mp4a.40.2',sampleRate:sr,numberOfChannels:ch,bitrate:128000});const N=4096;for(let o=0;o<len;o+=N){const m=Math.min(N,len-o),d=new Float32Array(m*ch);for(let c=0;c<ch;c++)d.set(r.getChannelData(c).subarray(o,o+m),c*m);const a=new AudioData({format:'f32-planar',sampleRate:sr,numberOfFrames:m,numberOfChannels:ch,timestamp:Math.round(o/sr*1e6),data:d});enc.encode(a);a.close()}await enc.flush()}
@@ -218,7 +312,7 @@ async function fetchN(){try{const r=await NT.getResult();if(r.running){TRK=1;msg
  (res.tracks||[]).forEach((a,i)=>{if(T[i])T[i].r=a.map(q=>({t:q[0],x:q[1],y:q[2]}))});rf();
  msg(res.status=='cancelled'?'Dibatalkan, hasil sebagian disimpan':'Selesai! Tempel layer ke lacakan di tab Layer.')}catch(e){}}
 async function runN(){const idx=[0];if(S.dual&&T[1].s)idx.push(1);if(!T[0].s)return msg('Pilih titik dulu');if(!NPATH)return msg('Buka video dulu');if(TRK>0)return msg('Masih melacak\u2026');
- TRK=1;try{await NT.startTrack({path:NPATH,t0:v.currentTime,pts:idx.map(i=>T[i].s)});msg('Melacak di latar belakang (lihat notifikasi). Boleh kunci layar.')}catch(e){TRK=0;msg('Gagal: '+(e.message||e))}}
+ TRK=1;TT0=v.currentTime;try{await NT.startTrack({path:NPATH,t0:v.currentTime,pts:idx.map(i=>T[i].s)});msg('Melacak di latar belakang (lihat notifikasi). Boleh kunci layar.')}catch(e){TRK=0;msg('Gagal: '+(e.message||e))}}
 async function pickN(){try{msg('Menyalin video\u2026');const r=await NT.pickVideo();NPATH=r.path;v.src=Capacitor.convertFileSrc('file://'+r.path);v.load()}catch(e){msg('Batal membuka video')}}
 if(NT){run=runN;$('#fi').addEventListener('click',e=>{e.preventDefault();pickN()});
  NT.addListener('progress',e=>{if(TRK>0)msg('Melacak '+Math.round(e.p*100)+'% \u00b7 jalan di latar belakang')});
